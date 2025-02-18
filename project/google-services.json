@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "177850482753",
+    "project_id": "barakah-plus",
+    "storage_bucket": "barakah-plus.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177850482753:android:e9ac4e39c691eed2f6c6c0",
+        "android_client_info": {
+          "package_name": "barakah.plus.andro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "177850482753-gfarullgs395l56o0qsgn7r8qu1446f8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArLmp961NnsuWs9_R5TIau48nQmufVQ1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "177850482753-gfarullgs395l56o0qsgn7r8qu1446f8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
