@@ -44,7 +44,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@types/jest": "^29.5.14",
     "@types/react": "~18.3.12",
+    "expo-module-scripts": "^4.0.4",
     "typescript": "^5.3.3"
   }
 }
