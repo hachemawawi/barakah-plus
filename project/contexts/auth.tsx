@@ -1,14 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { User as FirebaseUser } from 'firebase/auth';
-
-interface User extends FirebaseUser {
-  stats: {
-    shared: number;
-    received: number;
-    impact: number;
-  };
-}
 import { auth } from '../lib/firebase';
+import { User } from '../app/(tabs)/profile';
 
 type AuthContextType = {
   user: User | null;
@@ -24,13 +17,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((firebaseUser: FirebaseUser | null) => {
       if (firebaseUser) {
-           /*
-            import { auth } from '../lib/firebase';
-            import { User } from '../app/(tabs)/profile';
-          */
         // Map FirebaseUser to User interface
         const mappedUser: User = {
-          ...firebaseUser,
+          uid: firebaseUser.uid,
           displayName: firebaseUser.displayName || '',
           email: firebaseUser.email || '',
           photoURL: firebaseUser.photoURL || '',

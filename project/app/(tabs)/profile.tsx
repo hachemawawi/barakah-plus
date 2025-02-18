@@ -1,11 +1,9 @@
-import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
-import { Image } from 'expo-image';
+import { View, Text, StyleSheet, ScrollView, Pressable, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../contexts/auth';
 import { useGoogleAuth } from '../../hooks/useGoogleAuth';
 
-
-export interface User{
+export interface User {
   uid: string;
   displayName: string;
   email: string;
@@ -16,6 +14,8 @@ export interface User{
     impact: number;
   };
 }
+
+const DEFAULT_IMAGE_URL = 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80';
 
 const ACTIVITY = [
   { id: '1', type: 'shared', item: 'Apples', date: '2023-10-01' },
@@ -46,11 +46,14 @@ export default function ProfileScreen() {
     );
   }
 
+  console.log('User Photo URL:', user.photoURL);
+  console.log('Default Image URL:', DEFAULT_IMAGE_URL);
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Image 
-          source={{ uri: user.photoURL || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80' }} 
+          source={{ uri: user.photoURL || DEFAULT_IMAGE_URL }} 
           style={styles.avatar} 
         />
         <Text style={styles.name}>{user.displayName}</Text>
@@ -60,7 +63,7 @@ export default function ProfileScreen() {
       <View style={styles.statsContainer}>
         <View style={styles.statItem}>
           <Text style={styles.statValue}>{user.stats?.shared ?? 0}</Text>
-            <Text style={styles.statLabel}>Items Shared</Text>
+          <Text style={styles.statLabel}>Items Shared</Text>
         </View>
         <View style={styles.statDivider} />
         <View style={styles.statItem}>
