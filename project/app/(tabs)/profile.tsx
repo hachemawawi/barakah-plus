@@ -4,6 +4,25 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../contexts/auth';
 import { useGoogleAuth } from '../../hooks/useGoogleAuth';
 
+
+export interface User{
+  uid: string;
+  displayName: string;
+  email: string;
+  photoURL?: string;
+  stats: {
+    shared: number;
+    received: number;
+    impact: number;
+  };
+}
+
+const ACTIVITY = [
+  { id: '1', type: 'shared', item: 'Apples', date: '2023-10-01' },
+  { id: '2', type: 'received', item: 'Bananas', date: '2023-10-02' },
+  { id: '3', type: 'shared', item: 'Carrots', date: '2023-10-03' },
+];
+
 export default function ProfileScreen() {
   const { user } = useAuth();
   const { signIn, loading } = useGoogleAuth();
@@ -40,17 +59,17 @@ export default function ProfileScreen() {
 
       <View style={styles.statsContainer}>
         <View style={styles.statItem}>
-          <Text style={styles.statValue}>{PROFILE.stats.shared}</Text>
-          <Text style={styles.statLabel}>Items Shared</Text>
+          <Text style={styles.statValue}>{user.stats?.shared ?? 0}</Text>
+            <Text style={styles.statLabel}>Items Shared</Text>
         </View>
         <View style={styles.statDivider} />
         <View style={styles.statItem}>
-          <Text style={styles.statValue}>{PROFILE.stats.received}</Text>
+          <Text style={styles.statValue}>{user.stats?.received ?? 0}</Text>
           <Text style={styles.statLabel}>Items Received</Text>
         </View>
         <View style={styles.statDivider} />
         <View style={styles.statItem}>
-          <Text style={styles.statValue}>{PROFILE.stats.impact}</Text>
+          <Text style={styles.statValue}>{user.stats?.impact ?? 0}</Text>
           <Text style={styles.statLabel}>Food Saved</Text>
         </View>
       </View>

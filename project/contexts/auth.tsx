@@ -1,5 +1,13 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { User } from 'firebase/auth';
+import { User as FirebaseUser } from 'firebase/auth';
+
+interface User extends FirebaseUser {
+  stats: {
+    shared: number;
+    received: number;
+    impact: number;
+  };
+}
 import { auth } from '../lib/firebase';
 
 type AuthContextType = {
@@ -14,12 +22,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
+    const unsubscribe = auth.onAuthStateChanged((firebaseUser: FirebaseUser | null) => {
+      if (firebaseUser) {
+           /*
+            import { auth } from '../lib/firebase';
+            import { User } from '../app/(tabs)/profile';
+          */
+        // Map FirebaseUser to User interface
+        const mappedUser: User = {
+          ...firebaseUser,
+          displayName: firebaseUser.displayName || '',
+          email: firebaseUser.email || '',
+          photoURL: firebaseUser.photoURL || '',
+          stats: {
+            shared: 0,
+            received: 0,
+            impact: 0,
+          },
+        };
+        setUser(mappedUser);
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
 
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -29,4 +57,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export function useAuth() {
+  return useContext(AuthContext);
+}
