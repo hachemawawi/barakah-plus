@@ -1,8 +1,8 @@
-import * as WebBrowser from 'expo-web-browser';
-import * as Google from 'expo-auth-session/providers/google';
-import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithCredential, signOut } from 'firebase/auth';
 import { useEffect } from 'react';
 import { auth } from '../lib/firebase';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -11,14 +11,12 @@ export function useGoogleAuth() {
     clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
     iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
     androidClientId: process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID,
-    responseType: 'id_token', // Ensure id_token is requested
-    scopes: ['openid', 'profile', 'email'], // Ensure necessary scopes are included
+    responseType: 'id_token',
+    scopes: ['openid', 'profile', 'email'],
   });
 
   useEffect(() => {
     if (response?.type === 'success') {
-      console.log('Google Response:', response);
-
       const { params } = response;
       const idToken = params.id_token;
       if (!idToken) {
@@ -40,8 +38,18 @@ export function useGoogleAuth() {
     }
   }, [response]);
 
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      console.log('User signed out successfully');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
   return {
     signIn: () => promptAsync(),
+    logout,
     loading: !request,
   };
 }
